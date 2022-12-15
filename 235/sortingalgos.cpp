@@ -53,9 +53,59 @@ std::vector<int> insertionSort(std::vector<int> arr) {
     return result;
 }
 
+void merge(std::vector<int> &orig, std::vector<int> arr1, std::vector<int> arr2) {
+    int i = 0; int pt1 = 0; int pt2 = 0;
+    while (pt1 < arr1.size() && pt2 < arr2.size()) {
+        if (arr1[pt1] < arr2[pt2]) {
+            orig[i] = arr1[pt1];
+            pt1++;
+        } else if (arr2[pt2] < arr1[pt1]) {
+            orig[i] = arr2[pt2];
+            pt2++;
+        }
+        i++;
+    }
+    while (pt1 < arr1.size()) {
+        orig[i] = arr1[pt1];
+        pt1++;
+        i++;
+    }
+    while (pt2 < arr2.size()) {
+        orig[i] = arr2[pt2];
+        pt2++;
+        i++;
+    }
+}
+
+void mergeSort(std::vector<int> &arr) {
+    if (arr.size() <= 1) {
+        return;
+    }
+    int mid = (arr.size()) / 2;
+    std::vector<int> left, right;
+    for (int i = 0; i < mid; i++) {
+        left.push_back(arr[i]);
+    }
+    for (int i = mid; i < arr.size(); i++) {
+        right.push_back(arr[i]);
+    }
+    mergeSort(left);
+    mergeSort(right);
+    merge(arr, left, right);
+}
+
 int main() {
     std::vector<int> input = {1, -2, 4, 10, 3};
-    for (auto elem : insertionSort(input)) {
+    // for (auto elem : insertionSort(input)) {
+    //     std::cout << elem << "\t";
+    // }
+    // std::vector<int> a = {-2,1};
+    // std::vector<int> b = {3,5};
+    // std::vector<int> dummy = {0,0,0,0,0,0,0,0};
+    // merge(dummy,a,b);
+
+    mergeSort(input);
+    for (auto elem : input) {
         std::cout << elem << "\t";
     }
     std::cout << "\n";
